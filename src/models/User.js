@@ -53,7 +53,7 @@ const userSchema = new Schema(
 // for Hashing the password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = bcrypt.hash(this.password);
+  this.password = await bcrypt.hash(this.password);
   next();
 });
 
@@ -79,7 +79,7 @@ userSchema.methods.generateRefreshToken = function () {
     id: this.id,
     email: this.email,
     name: this.name,
-    userName: this.userName, 
+    userName: this.userName,
   }),
     process.env.REFRESH_TOKEN,
     {

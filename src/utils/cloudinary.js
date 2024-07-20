@@ -1,6 +1,12 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY, // Click 'View Credentials' below to copy your API secret
+});
+
 const uploadOnCloudinary = async (locakFilePath) => {
   try {
     if (!locakFilePath) return null;
@@ -17,10 +23,4 @@ const uploadOnCloudinary = async (locakFilePath) => {
   }
 };
 
-export { cloudinary };
-
-cloudinary.config({
-  cloud_name: "dki451qlh",
-  api_key: "488368953295229",
-  api_secret: "<your_api_secret>", // Click 'View Credentials' below to copy your API secret
-});
+export { uploadOnCloudinary };
