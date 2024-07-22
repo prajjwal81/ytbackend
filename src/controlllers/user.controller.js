@@ -4,6 +4,18 @@ import { User } from "../models/User.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 
+const generateAccessAndRefreshToken = () => {
+  try {
+    const user = User.findById(_id);
+
+    const generateAccessToken = generateAccessToken(user);
+    const generateRefreshToken = generateRefreshToken(user);
+  } catch (error) {
+    console.error();
+    throw new ApiError(500, "Something Went wrong");
+  }
+};
+
 const registerUser = AsyncHandler(async (req, res) => {
   const { userName, fullName, email, password } = req.body;
 
@@ -38,6 +50,21 @@ const registerUser = AsyncHandler(async (req, res) => {
   });
 
   return res.status(201).json(new ApiResponse(200, "user Created"));
+});
+
+const userLogin = AsyncHandler(async (req, res) => {
+  const { userName, email, password } = req.body;
+  if (!userName || !email) {
+    throw new ApiError(400, "Please provide credentials");
+  }
+
+  const user = User.findOne({ $or: [{ userName }, { email }] });
+
+  if (!user) {
+    throw new ApiError(400, "User not exist");
+  }
+
+  user.isPasswordCorrect(password);
 });
 
 export { registerUser };
