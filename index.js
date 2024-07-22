@@ -1,6 +1,6 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import { DB_NAME } from "./utils/constant.js";
+import { DB_NAME } from "./src/utils/constant.js";
 import express, { json } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -31,7 +31,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // import routes
-import UserRouter from "./routes/user.routes.js";
+import UserRouter from "./src/routes/user.routes.js";
 
 // router declaration
 app.use("/api/v1/user", UserRouter);
