@@ -4,15 +4,7 @@ import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowecase: true,
-      index: true,
-    },
-    name: {
+    userName: {
       type: String,
       required: true,
       unique: true,
@@ -53,7 +45,7 @@ const userSchema = new Schema(
 // for Hashing the password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
